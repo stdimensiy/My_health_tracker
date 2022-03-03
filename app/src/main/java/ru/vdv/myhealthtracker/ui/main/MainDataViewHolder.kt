@@ -11,7 +11,8 @@ class MainDataViewHolder(
     binding: ItemListRecordBinding = ItemListRecordBinding.inflate(li, parent, false)
 ) : RecyclerView.ViewHolder(binding.root) {
     var time = binding.tvTime
-    var pressure = binding.tvPressure
+    var systolicPressure = binding.tvPressureSystolic
+    var diastolicPressure = binding.tvPressureDiastolic
     var heartRate = binding.tvHeartRate
     var card = binding.clContainer
 }

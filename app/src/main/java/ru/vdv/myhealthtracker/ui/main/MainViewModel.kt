@@ -13,8 +13,8 @@ class MainViewModel : BaseViewModel() {
 
     val listForMain: LiveData<List<ApplicableForMineList>> = mListForMain
 
-    fun fetchCurrentList(){
-        repository.getTestList(object : CallBack<List<ApplicableForMineList>>{
+    fun fetchCurrentList() {
+        repository.getTestList(object : CallBack<List<ApplicableForMineList>> {
             override fun onResult(value: List<ApplicableForMineList>) {
                 mListForMain.value = value
             }

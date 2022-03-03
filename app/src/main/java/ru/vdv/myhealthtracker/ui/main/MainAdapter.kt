@@ -3,11 +3,15 @@ package ru.vdv.myhealthtracker.ui.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.vdv.myhealthtracker.R
+import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.BaseViewType
 import ru.vdv.myhealthtracker.domain.Record
 import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import ru.vdv.myhealthtracker.ui.common.UnknownTypeViewHolder
+import kotlin.math.abs
+import kotlin.math.max
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var items: List<ApplicableForMineList> = listOf()
@@ -33,8 +37,20 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             is Record -> {
                 holder as MainDataViewHolder
                 holder.time.text = item.timestamp.substring(11, 16)
-                holder.pressure.text = "${item.diastolicPressure} / ${item.diastolicPressure}"
+                holder.systolicPressure.text = item.systolicPressure.toString()
+                holder.diastolicPressure.text = item.diastolicPressure.toString()
                 holder.heartRate.text = item.heartRate.toString()
+                val d = max(
+                    abs(item.diastolicPressure - BaseConstants.NORMAL_DIASTOLIC_PRESSURE),
+                    abs(item.systolicPressure - BaseConstants.NORMAL_SYSTOLIC_PRESSURE)
+                )
+                when (d) {
+                    in 0..9 -> holder.card.setBackgroundResource(R.drawable.bg_fine)
+                    in 10..19 -> holder.card.setBackgroundResource(R.drawable.bg_slight_deviation_from_the_norm)
+                    in 20..29 -> holder.card.setBackgroundResource(R.drawable.bg_average_deviation_from_the_norm)
+                    in 30..39 -> holder.card.setBackgroundResource(R.drawable.bg_significant_deviation_from_the_norm)
+                    in 40..1000 -> holder.card.setBackgroundResource(R.drawable.bg_critical_deviation_from_the_norm)
+                }
             }
             is Separator -> {
                 holder as MainDataSeparatorViewHolder

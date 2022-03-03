@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="64dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -13,6 +13,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/tv_time_plug"
         android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/custom_accent_text_color_lighter"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,12 +23,27 @@
         tools:text="23:53" />
 
     <TextView
-        android:id="@+id/tv_pressure"
+        android:id="@+id/tv_pressure_diastolic"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_pressure_result_plug_text"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_pressure_separator"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:text="123" />
+
+    <TextView
+        android:id="@+id/tv_pressure_separator"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
         android:text="@string/tv_pressure_plug_text"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/custom_accent_text_color_lighter"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,27 +51,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:text="123 / 89" />
+        tools:text=" / " />
+
+    <TextView
+        android:id="@+id/tv_pressure_systolic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_pressure_result_plug_text"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_pressure_separator"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:text="123" />
 
     <ImageView
         android:id="@+id/iv_unknown_type_sign"
         android:layout_width="16dp"
         android:layout_height="16dp"
+        android:layout_marginEnd="8dp"
         android:contentDescription="@string/iv_unknown_type_sign_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_heartRate"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_favorite_black_24dp" />
+        app:srcCompat="@drawable/baseline_favorite_black_24dp"
+        app:tint="@color/custom_accent_text_color" />
 
     <TextView
         android:id="@+id/tv_heartRate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:text="@string/tv_pressure_plug_text"
         android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/custom_accent_text_color_lighter"
         android:textSize="34sp"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
         tools:text="95" />
 
