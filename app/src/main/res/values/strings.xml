@@ -18,4 +18,13 @@
     <string name="tv_pressure_plug_text"> / </string>
     <string name="tv_time_plug">12:34</string>
     <string name="tv_pressure_result_plug_text">---</string>
+    <string name="systolic_pressure_title_text">Верхнее число — систолическое артериальное давление.</string>
+    <string name="systolic_pressure_plug">0</string>
+    <string name="diastolic_pressure_title_text">Диастолическое (нижнее) давление</string>
+    <string name="diastolic_pressure_plug">0</string>
+    <string name="heartRate_title_text">Сердечный ритм (пульс)</string>
+    <string name="heartRate_plug">0</string>
+    <string name="dialog_input_title">Ввод новых показателей</string>
+    <string name="btn_ok_text">СОХРАНИТЬ</string>
+    <string name="btn_cancel_text">ОТМЕНА</string>
 </resources>
