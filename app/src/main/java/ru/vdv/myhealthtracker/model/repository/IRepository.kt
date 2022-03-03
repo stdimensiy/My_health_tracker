@@ -5,4 +5,5 @@ import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 
 interface IRepository {
     fun getTestList(callBack: CallBack<List<ApplicableForMineList>>)
+    fun getList(callBack: CallBack<List<ApplicableForMineList>>)
 }

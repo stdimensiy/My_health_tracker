@@ -1,5 +1,6 @@
 package ru.vdv.myhealthtracker.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.vdv.myhealthtracker.domain.CallBack
@@ -14,7 +15,8 @@ class MainViewModel : BaseViewModel() {
     val listForMain: LiveData<List<ApplicableForMineList>> = mListForMain
 
     fun fetchCurrentList() {
-        repository.getTestList(object : CallBack<List<ApplicableForMineList>> {
+        Log.d(TAG, "Отправляю запрос в репозиторий")
+        repository.getList(object : CallBack<List<ApplicableForMineList>> {
             override fun onResult(value: List<ApplicableForMineList>) {
                 mListForMain.value = value
             }
