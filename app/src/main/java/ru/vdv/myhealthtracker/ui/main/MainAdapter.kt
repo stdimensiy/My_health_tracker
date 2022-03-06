@@ -14,7 +14,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var items: List<ApplicableForMineList> = listOf()
+    var items: ArrayList<ApplicableForMineList> = arrayListOf()
 
     override fun getItemViewType(position: Int) = when (items[position]) {
         is Record -> BaseViewType.RECORD

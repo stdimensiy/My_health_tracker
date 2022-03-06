@@ -1,24 +1,24 @@
 package ru.vdv.myhealthtracker.ui.main
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.vdv.myhealthtracker.domain.CallBack
+import ru.vdv.myhealthtracker.domain.Record
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import ru.vdv.myhealthtracker.ui.common.BaseViewModel
 
 class MainViewModel : BaseViewModel() {
-    private val mListForMain = MutableLiveData<List<ApplicableForMineList>>().apply {
-        value = listOf()
+    private val mListForMain = MutableLiveData<ArrayList<ApplicableForMineList>>().apply {
+        value = arrayListOf()
     }
 
-    val listForMain: LiveData<List<ApplicableForMineList>> = mListForMain
+    val listForMain: LiveData<ArrayList<ApplicableForMineList>> = mListForMain
 
     fun fetchCurrentList() {
         Log.d(TAG, "Отправляю запрос в репозиторий")
-        repository.getList(object : CallBack<List<ApplicableForMineList>> {
-            override fun onResult(value: List<ApplicableForMineList>) {
+        repository.getList(object : CallBack<ArrayList<ApplicableForMineList>> {
+            override fun onResult(value: ArrayList<ApplicableForMineList>) {
                 mListForMain.value = value
             }
         })
@@ -26,10 +26,16 @@ class MainViewModel : BaseViewModel() {
 
     fun addNewRecord(systolicPressure: String, diastolicPressure: String, heartRate: String){
         Log.d(TAG, "Отправляю запрос в репозиторий на запись нового элемента")
-//        repository.addNewRecord(object : CallBack<Boolean> {
-//            override fun onResult(value: List<Boolean>) {
-//                mListForMain.value = value
-//            }
-//        })
+        val newRecord: Record = Record("ttt", "2021-10-25 23:54:00", diastolicPressure.toInt(), systolicPressure.toInt(), heartRate.toInt())
+        repository.addNewRecord(newRecord, object : CallBack<ArrayList<ApplicableForMineList>> {
+            override fun onResult(value: ArrayList<ApplicableForMineList>) {
+                Log.d(TAG, "Данные получил, меняю")
+                val newData = mListForMain.value
+                if (newData != null) {
+                    newData.addAll(1, value)
+                }
+                mListForMain.postValue(newData)
+            }
+        })
     }
 }

@@ -8,7 +8,7 @@ import java.sql.Timestamp
 
 @Parcelize
 data class Record(
-    val id: String,
+    var id: String,
     val timestamp: String,
     val diastolicPressure: Int,
     val systolicPressure: Int,

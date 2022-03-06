@@ -2,6 +2,7 @@ package ru.vdv.myhealthtracker
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import ru.vdv.myhealthtracker.databinding.FragmentFirstBinding
 import ru.vdv.myhealthtracker.ui.main.MainAdapter
@@ -47,6 +47,7 @@ class FirstFragment : Fragment() {
         mineList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         viewModel.fetchCurrentList()
         viewModel.listForMain.observe(viewLifecycleOwner) {
+            Log.d("Моя проверка", "Я чувствую как изменение течения силы, надобы обновить данные...")
             adapter.items = it
             adapter.notifyDataSetChanged()
         }
@@ -75,7 +76,7 @@ class FirstFragment : Fragment() {
             .setPositiveButton(R.string.btn_ok_text,
                 DialogInterface.OnClickListener { dialog, which -> //notesViewModel.addNewNote(requireContext());
                     //ViewModel.addNewTask(requireContext(), newTitleTask.getText().toString());
-                    //Toast.makeText(requireContext(), "Пользователь ввел: " + userInputTitle.getText() + " И контент : " + userInputContent.getText(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(requireContext(), "Пользователь ввел: " + systolicPressure.text + " И контент : " + diastolicPressure.text + " пульс" + heartRate.text, Toast.LENGTH_SHORT).show();
                     viewModel.addNewRecord(
                         systolicPressure.text.toString(),
                         diastolicPressure.text.toString(),

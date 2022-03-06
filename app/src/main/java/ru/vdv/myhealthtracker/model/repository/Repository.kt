@@ -3,19 +3,25 @@ package ru.vdv.myhealthtracker.model.repository
 import android.annotation.SuppressLint
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.CallBack
 import ru.vdv.myhealthtracker.domain.Record
 import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
+import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Repository : IRepository {
 
     @SuppressLint("SimpleDateFormat")
-    val format = SimpleDateFormat(BaseConstants.HEADER_DATA_FORMAT)
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val format = SimpleDateFormat(BaseConstants.HEADER_DATA_FORMAT)
+    private val db = Firebase.firestore
 
     val testPlug = listOf<ApplicableForMineList>(
         Separator("25 октября"),
@@ -46,12 +52,12 @@ class Repository : IRepository {
         android.os.Handler().postDelayed({ callBack.onResult(testPlug) }, 2000)
     }
 
-    override fun getList(callBack: CallBack<List<ApplicableForMineList>>) {
+    override fun getList(callBack: CallBack<ArrayList<ApplicableForMineList>>) {
         var currentDataRecord: String = ""
         Log.d("Моя проверка", "Начинаю отработку запроса")
-        val prepareList: MutableList<ApplicableForMineList> = mutableListOf()
+        val prepareList: ArrayList<ApplicableForMineList> = arrayListOf()
 //        var currentDataRecord: String = ""
-        db.collection("records").get()
+        db.collection("records").orderBy("timestamp",Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     Log.d("Моя проверка", "Документ существует и получен ответ data: ${documents}")
@@ -95,6 +101,46 @@ class Repository : IRepository {
             .addOnFailureListener { exception ->
                 Log.d("Моя проверка", "ОШИБКА!!! ", exception)
             }
+    }
+
+    override fun addNewRecord(
+        record: Record,
+        callBack: CallBack<ArrayList<ApplicableForMineList>>
+    ) {
+        Log.d("Моя проверка", "Начинаю отработку запроса добавленияновой записи в базу")
+        val docData = hashMapOf(
+            "timestamp" to Timestamp(Calendar.getInstance().timeInMillis),
+            "diastolicPressure" to record.diastolicPressure,
+            "systolicPressure" to record.systolicPressure,
+            "heartRate" to record.heartRate
+        )
+        db.collection("records").add(docData)
+            .addOnSuccessListener { it ->
+                Log.d("Моя проверка", "DocumentSnapshot added with ID: ${it.id}")
+                record.id = it.id
+                callBack.onResult(
+                    arrayListOf(
+                        record
+                    )
+                )
+            }
+            .addOnFailureListener { it ->
+                Log.d("Моя проверка", "Error adding document", it)
+            }
 
     }
+
+    override fun updateRecord(record: Record, callBack: CallBack<Any>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteAllRecord(callBack: CallBack<Any>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteRecordById(record: Record, callBack: CallBack<Any>) {
+        TODO("Not yet implemented")
+    }
+
+
 }
