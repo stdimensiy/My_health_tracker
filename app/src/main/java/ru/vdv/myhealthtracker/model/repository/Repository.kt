@@ -57,7 +57,7 @@ class Repository : IRepository {
         Log.d("Моя проверка", "Начинаю отработку запроса")
         val prepareList: ArrayList<ApplicableForMineList> = arrayListOf()
 //        var currentDataRecord: String = ""
-        db.collection("records").orderBy("timestamp",Query.Direction.DESCENDING).get()
+        db.collection("records").orderBy("timestamp", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     Log.d("Моя проверка", "Документ существует и получен ответ data: ${documents}")
@@ -131,7 +131,10 @@ class Repository : IRepository {
     }
 
     override fun updateRecord(record: Record, callBack: CallBack<Any>) {
-        TODO("Not yet implemented")
+        // в данной реализации и приложении  как таковом не предусматеривается возможность
+        // корректировать ранее введенные данные (формально это приложение должно фиксировать
+        // одномоментно показания и исключать возможность их корректировки)
+        // метод оставлен как заглушка, дорабатывается и применяется только в режиме отладки
     }
 
     override fun deleteAllRecord(callBack: CallBack<Any>) {
@@ -139,8 +142,12 @@ class Repository : IRepository {
     }
 
     override fun deleteRecordById(record: Record, callBack: CallBack<Any>) {
-        TODO("Not yet implemented")
+        db.collection("records").document(record.id).delete()
+            .addOnSuccessListener {
+                Log.d("Моя проверка", "Документ удален из базы")
+                callBack.onResult(
+                    record
+                )
+            }
     }
-
-
 }

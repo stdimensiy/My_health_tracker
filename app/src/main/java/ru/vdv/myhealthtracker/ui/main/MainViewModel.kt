@@ -31,9 +31,20 @@ class MainViewModel : BaseViewModel() {
             override fun onResult(value: ArrayList<ApplicableForMineList>) {
                 Log.d(TAG, "Данные получил, меняю")
                 val newData = mListForMain.value
-                if (newData != null) {
-                    newData.addAll(1, value)
-                }
+                newData?.addAll(1, value)
+                mListForMain.postValue(newData)
+            }
+        })
+    }
+
+    fun deleteRecord(record: Record){
+        Log.d(TAG, "Пытаюсь удалить элемент из базы")
+        repository.deleteRecordById(record, object : CallBack<Any> {
+            override fun onResult(value: Any) {
+                value as Record
+                Log.d(TAG, "Данные получил, пытаюсь удалить из списка")
+                val newData = mListForMain.value
+                newData?.remove(value)
                 mListForMain.postValue(newData)
             }
         })

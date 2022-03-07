@@ -1,7 +1,6 @@
 package ru.vdv.myhealthtracker
 
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -13,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import ru.vdv.myhealthtracker.databinding.FragmentFirstBinding
+import ru.vdv.myhealthtracker.domain.Record
+import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ILongClicked
 import ru.vdv.myhealthtracker.ui.main.MainAdapter
 import ru.vdv.myhealthtracker.ui.main.MainViewModel
@@ -38,18 +39,27 @@ class FirstFragment : Fragment() {
         adapter = MainAdapter()
         adapter.itemLongClicked = object : ILongClicked {
             override fun onItemLongClicked(view: View, position: Int, itemObject: Any) {
-                Log.d("Моя проверка", "Я чувствую как выполняется длительное нажатие, теперь фрагмент знает, что пользователь сделал это ...")
-                val pop = PopupMenu(view.context, view)
-                pop.inflate(R.menu.record_context_menu)
-                pop.setOnMenuItemClickListener {
-                    item -> when(item.itemId){
-                        R.id.action_delete_record ->{
-                            Log.d("Моя проверка", "Клиент выбрал удаление ...")
+                if (itemObject is Record) {
+                    Log.d(
+                        "Моя проверка",
+                        "Я чувствую как выполняется длительное нажатие, теперь фрагмент знает, что пользователь сделал это ..."
+                    )
+                    val pop = PopupMenu(view.context, view)
+                    pop.inflate(R.menu.record_context_menu)
+                    pop.setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.action_delete_record -> {
+                                Log.d("Моя проверка", "Клиент выбрал удаление ...")
+                                viewModel.deleteRecord(itemObject)
+                            }
                         }
+                        true
                     }
-                    true
+                    pop.show()
+                } else if (itemObject is Separator) {
+                    // реализация метода удаления группы элементов (т.е. за день или в будущем за период)
+                    // необходимо выполнить здесь
                 }
-                pop.show()
             }
         }
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -65,7 +75,10 @@ class FirstFragment : Fragment() {
         mineList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         viewModel.fetchCurrentList()
         viewModel.listForMain.observe(viewLifecycleOwner) {
-            Log.d("Моя проверка", "Я чувствую как изменение течения силы, надобы обновить данные...")
+            Log.d(
+                "Моя проверка",
+                "Я чувствую как изменение течения силы, надобы обновить данные..."
+            )
             adapter.items = it
             adapter.notifyDataSetChanged()
         }
@@ -122,7 +135,7 @@ class FirstFragment : Fragment() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        if (item.itemId==R.id.action_delete_record){
+        if (item.itemId == R.id.action_delete_record) {
             Log.d("Моя проверка", "Пользователь активировал удаление элемента...")
         }
         return super.onContextItemSelected(item)
