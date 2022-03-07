@@ -23,7 +23,7 @@ class Repository : IRepository {
     override fun getList(callBack: CallBack<ArrayList<ApplicableForMineList>>) {
         var currentDataRecord: String = ""
         val prepareList: ArrayList<ApplicableForMineList> = arrayListOf()
-        db.collection("records").orderBy("timestamp", Query.Direction.DESCENDING).get()
+        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).orderBy("timestamp", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
@@ -75,7 +75,7 @@ class Repository : IRepository {
             "systolicPressure" to record.systolicPressure,
             "heartRate" to record.heartRate
         )
-        db.collection("records").add(docData)
+        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).add(docData)
             .addOnSuccessListener { it ->
                 record.id = it.id
                 callBack.onResult(
@@ -108,7 +108,7 @@ class Repository : IRepository {
     }
 
     override fun deleteRecord(record: Record, callBack: CallBack<Any>) {
-        db.collection("records").document(record.id).delete()
+        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).document(record.id).delete()
             .addOnSuccessListener {
                 callBack.onResult(
                     record

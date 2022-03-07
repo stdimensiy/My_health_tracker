@@ -1,4 +1,4 @@
-package ru.vdv.myhealthtracker
+package ru.vdv.myhealthtracker.ui.main
 
 import android.os.Bundle
 import android.view.*
@@ -9,12 +9,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vdv.myhealthtracker.R
 import ru.vdv.myhealthtracker.databinding.MineFragmentBinding
 import ru.vdv.myhealthtracker.domain.Record
 import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ILongClicked
-import ru.vdv.myhealthtracker.ui.main.MainAdapter
-import ru.vdv.myhealthtracker.ui.main.MainViewModel
 
 class FirstFragment : Fragment() {
     private lateinit var adapter: MainAdapter
