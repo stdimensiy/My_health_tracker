@@ -27,4 +27,5 @@
     <string name="dialog_input_title">Ввод новых показателей</string>
     <string name="btn_ok_text">СОХРАНИТЬ</string>
     <string name="btn_cancel_text">ОТМЕНА</string>
+    <string name="context_menu_action_delete_record">Удалить запись</string>
 </resources>

@@ -1,18 +1,19 @@
 package ru.vdv.myhealthtracker
 
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
+import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import ru.vdv.myhealthtracker.databinding.FragmentFirstBinding
+import ru.vdv.myhealthtracker.ui.common.ILongClicked
 import ru.vdv.myhealthtracker.ui.main.MainAdapter
 import ru.vdv.myhealthtracker.ui.main.MainViewModel
 
@@ -22,6 +23,7 @@ import ru.vdv.myhealthtracker.ui.main.MainViewModel
 class FirstFragment : Fragment() {
     private lateinit var adapter: MainAdapter
     private lateinit var viewModel: MainViewModel
+    private var contextMenuItemPosition: Int = 0
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -34,6 +36,22 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         adapter = MainAdapter()
+        adapter.itemLongClicked = object : ILongClicked {
+            override fun onItemLongClicked(view: View, position: Int, itemObject: Any) {
+                Log.d("Моя проверка", "Я чувствую как выполняется длительное нажатие, теперь фрагмент знает, что пользователь сделал это ...")
+                val pop = PopupMenu(view.context, view)
+                pop.inflate(R.menu.record_context_menu)
+                pop.setOnMenuItemClickListener {
+                    item -> when(item.itemId){
+                        R.id.action_delete_record ->{
+                            Log.d("Моя проверка", "Клиент выбрал удаление ...")
+                        }
+                    }
+                    true
+                }
+                pop.show()
+            }
+        }
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
@@ -90,5 +108,23 @@ class FirstFragment : Fragment() {
             .setCancelable(false)
             .create()
         inputTitle.show()
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        Log.d("Моя проверка", "onCreateContextMenu стаботал")
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val menuInflater = requireActivity().menuInflater
+        menuInflater.inflate(R.menu.record_context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        if (item.itemId==R.id.action_delete_record){
+            Log.d("Моя проверка", "Пользователь активировал удаление элемента...")
+        }
+        return super.onContextItemSelected(item)
     }
 }
