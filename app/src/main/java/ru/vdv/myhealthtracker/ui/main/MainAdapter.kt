@@ -1,8 +1,6 @@
 package ru.vdv.myhealthtracker.ui.main
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.vdv.myhealthtracker.R
@@ -55,8 +53,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     in 30..39 -> holder.card.setBackgroundResource(R.drawable.bg_significant_deviation_from_the_norm)
                     in 40..1000 -> holder.card.setBackgroundResource(R.drawable.bg_critical_deviation_from_the_norm)
                 }
-                holder.card.setOnLongClickListener{
-                    Log.d("Моя проверка", "Длительное нажатие выполнено")
+                holder.card.setOnLongClickListener {
                     itemLongClicked?.onItemLongClicked(holder.itemView, position, item)
                     true
                 }
