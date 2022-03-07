@@ -7,4 +7,5 @@ object BaseConstants {
     const val FIREBASE_FAILURE = "ОШИБКА при работе компонены FIREBASE"
     const val NORMAL_DIASTOLIC_PRESSURE = 120
     const val NORMAL_SYSTOLIC_PRESSURE = 80
+    const val HEADER_DATA_FORMAT = "dd MMMM"
 }

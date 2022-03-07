@@ -9,12 +9,14 @@ import ru.vdv.myhealthtracker.domain.BaseViewType
 import ru.vdv.myhealthtracker.domain.Record
 import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
+import ru.vdv.myhealthtracker.ui.common.ILongClicked
 import ru.vdv.myhealthtracker.ui.common.UnknownTypeViewHolder
 import kotlin.math.abs
 import kotlin.math.max
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var items: List<ApplicableForMineList> = listOf()
+    var items: ArrayList<ApplicableForMineList> = arrayListOf()
+    var itemLongClicked: ILongClicked? = null
 
     override fun getItemViewType(position: Int) = when (items[position]) {
         is Record -> BaseViewType.RECORD
@@ -51,6 +53,10 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     in 30..39 -> holder.card.setBackgroundResource(R.drawable.bg_significant_deviation_from_the_norm)
                     in 40..1000 -> holder.card.setBackgroundResource(R.drawable.bg_critical_deviation_from_the_norm)
                 }
+                holder.card.setOnLongClickListener {
+                    itemLongClicked?.onItemLongClicked(holder.itemView, position, item)
+                    true
+                }
             }
             is Separator -> {
                 holder as MainDataSeparatorViewHolder
@@ -66,5 +72,4 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }
-
 }

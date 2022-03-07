@@ -1,14 +1,8 @@
 <resources>
     <string name="app_name">My Health Tracker</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="main_fragment_label">Состояние здоровья</string>
     <string name="tv_unknown_type_name_default_text">Неизвестный тип элемента списка</string>
     <string name="tv_unknown_type_title_default_text">Индекс элемента</string>
     <string name="iv_unknown_type_sign_content_description">ОШИБКА! Неизвестный тип представления</string>
@@ -18,4 +12,14 @@
     <string name="tv_pressure_plug_text"> / </string>
     <string name="tv_time_plug">12:34</string>
     <string name="tv_pressure_result_plug_text">---</string>
+    <string name="systolic_pressure_title_text">Верхнее число — систолическое артериальное давление.</string>
+    <string name="systolic_pressure_plug">0</string>
+    <string name="diastolic_pressure_title_text">Диастолическое (нижнее) давление</string>
+    <string name="diastolic_pressure_plug">0</string>
+    <string name="heartRate_title_text">Сердечный ритм (пульс)</string>
+    <string name="heartRate_plug">0</string>
+    <string name="dialog_input_title">Ввод новых показателей</string>
+    <string name="btn_ok_text">СОХРАНИТЬ</string>
+    <string name="btn_cancel_text">ОТМЕНА</string>
+    <string name="context_menu_action_delete_record">Удалить запись</string>
 </resources>

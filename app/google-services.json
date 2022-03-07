@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "188657548528",
+    "project_id": "my-health-tracker-f9e92",
+    "storage_bucket": "my-health-tracker-f9e92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188657548528:android:72dd7424a08ebed606d635",
+        "android_client_info": {
+          "package_name": "ru.vdv.myhealthtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188657548528-p3k7fpv05q8oc1lg1djistg4scska6c3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.vdv.myhealthtracker",
+            "certificate_hash": "529079c02708356972f35136d6c3506c0ed3672f"
+          }
+        },
+        {
+          "client_id": "188657548528-8uc60878r83vcj3hg3kckr5ovngrcfvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlpPHHFq6B93jrODxiW1Ypy3was1D8pgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188657548528-8uc60878r83vcj3hg3kckr5ovngrcfvh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
