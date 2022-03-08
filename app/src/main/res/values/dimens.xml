@@ -1,3 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dialog_helper_text_size">10sp</dimen>
+    <dimen name="rv_element_top_divider_height">2dp</dimen>
+    <dimen name="rv_element_bottom_divider_height">1dp</dimen>
+    <dimen name="element_base_text_size">34sp</dimen>
+    <dimen name="element_secondary_text_size">16sp</dimen>
+    <dimen name="custom_fab_margin">32dp</dimen>
 </resources>

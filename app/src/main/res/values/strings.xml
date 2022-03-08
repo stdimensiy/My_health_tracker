@@ -22,4 +22,7 @@
     <string name="btn_ok_text">СОХРАНИТЬ</string>
     <string name="btn_cancel_text">ОТМЕНА</string>
     <string name="context_menu_action_delete_record">Удалить запись</string>
+    <string name="et_systolic_pressure_hint">120</string>
+    <string name="et_diastolic_pressure_hint">80</string>
+    <string name="et_heartRate_hint">60</string>
 </resources>

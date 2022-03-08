@@ -14,7 +14,7 @@
         android:text="@string/tv_time_plug"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/custom_accent_text_color_lighter"
-        android:textSize="16sp"
+        android:textSize="@dimen/element_secondary_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
         android:text="@string/tv_pressure_result_plug_text"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textSize="34sp"
+        android:textSize="@dimen/element_base_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_pressure_separator"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/custom_accent_text_color_lighter"
-        android:textSize="34sp"
+        android:textSize="@dimen/element_base_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
         android:text="@string/tv_pressure_result_plug_text"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textSize="34sp"
+        android:textSize="@dimen/element_base_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_pressure_separator"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +87,7 @@
         android:text="@string/tv_pressure_plug_text"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/custom_accent_text_color_lighter"
-        android:textSize="34sp"
+        android:textSize="@dimen/element_base_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -97,9 +97,9 @@
     <View
         android:id="@+id/bottom_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/rv_element_bottom_divider_height"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="@dimen/rv_element_bottom_divider_height" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

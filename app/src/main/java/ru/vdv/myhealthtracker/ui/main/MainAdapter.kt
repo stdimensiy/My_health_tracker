@@ -36,28 +36,29 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when (val item = items[position]) {
             is Record -> {
                 holder as MainDataViewHolder
-                holder.time.text = format.format(item.timestamp)
-                holder.systolicPressure.text = item.systolicPressure.toString()
-                holder.diastolicPressure.text = item.diastolicPressure.toString()
-                holder.heartRate.text = item.heartRate.toString()
-                val d = max(
-                    abs(item.diastolicPressure - BaseConstants.NORMAL_DIASTOLIC_PRESSURE),
-                    abs(item.systolicPressure - BaseConstants.NORMAL_SYSTOLIC_PRESSURE)
-                )
-                when (d) {
-                    in 0..9 -> holder.card.setBackgroundResource(R.drawable.bg_fine)
-                    in 10..19 -> holder.card.setBackgroundResource(R.drawable.bg_slight_deviation_from_the_norm)
-                    in 20..29 -> holder.card.setBackgroundResource(R.drawable.bg_average_deviation_from_the_norm)
-                    in 30..39 -> holder.card.setBackgroundResource(R.drawable.bg_significant_deviation_from_the_norm)
-                    in 40..1000 -> holder.card.setBackgroundResource(R.drawable.bg_critical_deviation_from_the_norm)
-                }
-                holder.card.setOnLongClickListener {
-                    itemLongClicked?.onItemLongClicked(holder.itemView, position, item)
-                    true
+                holder.apply {
+                    time.text = format.format(item.timestamp)
+                    systolicPressure.text = item.systolicPressure.toString()
+                    diastolicPressure.text = item.diastolicPressure.toString()
+                    heartRate.text = item.heartRate.toString()
+                    val d = max(
+                        abs(item.diastolicPressure - BaseConstants.NORMAL_DIASTOLIC_PRESSURE),
+                        abs(item.systolicPressure - BaseConstants.NORMAL_SYSTOLIC_PRESSURE)
+                    )
+                    when (d) {
+                        in 0..9 -> card.setBackgroundResource(R.drawable.bg_fine)
+                        in 10..19 -> card.setBackgroundResource(R.drawable.bg_slight_deviation_from_the_norm)
+                        in 20..29 -> card.setBackgroundResource(R.drawable.bg_average_deviation_from_the_norm)
+                        in 30..39 -> card.setBackgroundResource(R.drawable.bg_significant_deviation_from_the_norm)
+                        in 40..1000 -> card.setBackgroundResource(R.drawable.bg_critical_deviation_from_the_norm)
+                    }
+                    card.setOnLongClickListener {
+                        itemLongClicked?.onItemLongClicked(holder.itemView, position, item)
+                        true
+                    }
                 }
             }
             is Separator -> {

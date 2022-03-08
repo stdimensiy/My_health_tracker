@@ -57,7 +57,7 @@
                 android:maxLines="2"
                 android:text="@string/tv_unknown_type_name_default_text"
                 android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textSize="16sp"
+                android:textSize="@dimen/element_secondary_text_size"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/tv_unknown_type_body"
                 app:layout_constraintStart_toEndOf="@+id/iv_unknown_type_sign"
