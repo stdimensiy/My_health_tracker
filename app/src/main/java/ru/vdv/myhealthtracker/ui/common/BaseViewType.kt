@@ -1,4 +1,4 @@
-package ru.vdv.myhealthtracker.domain
+package ru.vdv.myhealthtracker.ui.common
 
 /**
  * Тип представления: (сквозная нумерация всех представлений для RV)

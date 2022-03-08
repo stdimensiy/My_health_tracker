@@ -1,6 +1,4 @@
-package ru.vdv.myhealthtracker.domain
-
-import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
+package ru.vdv.myhealthtracker.ui.common
 
 /**
  * Класс Separator (Разделитель)

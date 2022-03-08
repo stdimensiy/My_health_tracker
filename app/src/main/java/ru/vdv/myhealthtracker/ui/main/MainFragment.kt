@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ru.vdv.myhealthtracker.R
 import ru.vdv.myhealthtracker.databinding.MineFragmentBinding
 import ru.vdv.myhealthtracker.domain.Record
-import ru.vdv.myhealthtracker.domain.Separator
+import ru.vdv.myhealthtracker.ui.common.Separator
 import ru.vdv.myhealthtracker.ui.common.ILongClicked
 
-class FirstFragment : Fragment() {
+class MainFragment : Fragment() {
     private lateinit var adapter: MainAdapter
     private lateinit var viewModel: MainViewModel
     private var _binding: MineFragmentBinding? = null

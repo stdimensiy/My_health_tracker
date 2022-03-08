@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.vdv.myhealthtracker.R
 import ru.vdv.myhealthtracker.domain.BaseConstants
-import ru.vdv.myhealthtracker.domain.BaseViewType
+import ru.vdv.myhealthtracker.ui.common.BaseViewType
 import ru.vdv.myhealthtracker.domain.Record
-import ru.vdv.myhealthtracker.domain.Separator
+import ru.vdv.myhealthtracker.ui.common.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import ru.vdv.myhealthtracker.ui.common.ILongClicked
 import ru.vdv.myhealthtracker.ui.common.UnknownTypeViewHolder

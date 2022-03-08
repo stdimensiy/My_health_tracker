@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.CallBack
 import ru.vdv.myhealthtracker.domain.Record
-import ru.vdv.myhealthtracker.domain.Separator
+import ru.vdv.myhealthtracker.ui.common.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import ru.vdv.myhealthtracker.ui.common.BaseViewModel
 import java.text.SimpleDateFormat
@@ -22,9 +22,9 @@ class MainViewModel : BaseViewModel() {
     val listForMain: LiveData<List<ApplicableForMineList>> = mListForMain
 
     fun fetchCurrentList() {
-        repository.getList(object : CallBack<ArrayList<Record>> {
-            override fun onResult(value: ArrayList<Record>) {
-                rawList = value
+        repository.getList(object : CallBack<List<Record>> {
+            override fun onResult(value: List<Record>) {
+                rawList = ArrayList(value)
                 processListRecords()
             }
         })

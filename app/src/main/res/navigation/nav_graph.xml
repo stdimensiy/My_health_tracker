@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="ru.vdv.myhealthtracker.ui.main.FirstFragment"
+        android:name="ru.vdv.myhealthtracker.ui.main.MainFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/mine_fragment">
     </fragment>
