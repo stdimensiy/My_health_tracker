@@ -6,9 +6,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.CallBack
+import ru.vdv.myhealthtracker.domain.FSRecordStructure
 import ru.vdv.myhealthtracker.domain.Record
-import ru.vdv.myhealthtracker.domain.Separator
-import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,44 +19,30 @@ class Repository : IRepository {
     private val format = SimpleDateFormat(BaseConstants.HEADER_DATA_FORMAT)
     private val db = Firebase.firestore
 
-    override fun getList(callBack: CallBack<ArrayList<ApplicableForMineList>>) {
-        var currentDataRecord: String = ""
-        val prepareList: ArrayList<ApplicableForMineList> = arrayListOf()
-        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).orderBy("timestamp", Query.Direction.DESCENDING).get()
+    override fun getList(callBack: CallBack<ArrayList<Record>>) {
+        val prepareList: ArrayList<Record> = arrayListOf()
+        db.collection(FSRecordStructure.COLLECTION_PATH)
+            .orderBy(FSRecordStructure.Field.TIMESTAMP, Query.Direction.DESCENDING).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
                     for (document in documents) {
-                        if (currentDataRecord.equals(format.format(document.getDate("timestamp")))) {
-                            prepareList.add(
-                                Record(
-                                    document.id,
-                                    document.getDate("timestamp").toString(),
-                                    document.getLong("diastolicPressure")?.toInt() ?: 0,
-                                    document.getLong("systolicPressure")?.toInt() ?: 0,
-                                    document.getLong("heartRate")?.toInt() ?: 0,
-                                )
+                        prepareList.add(
+                            Record(
+                                document.id,
+                                document.getDate(FSRecordStructure.Field.TIMESTAMP),
+                                document.getLong(FSRecordStructure.Field.SYSTOLIC_PRESSURE)
+                                    ?.toInt() ?: 0,
+                                document.getLong(FSRecordStructure.Field.DIASTOLIC_PRESSURE)
+                                    ?.toInt() ?: 0,
+                                document.getLong(FSRecordStructure.Field.HEART_RATE)?.toInt()
+                                    ?: 0,
                             )
-                        } else {
-                            currentDataRecord = format.format(document.getDate("timestamp"))
-                            prepareList.add(Separator(currentDataRecord))
-
-                            val fullDataStamp = document.getDate("timestamp")
-                            val diastolicPressure = document.getLong("systolicPressure")
-                            prepareList.add(
-                                Record(
-                                    document.id,
-                                    document.getDate("timestamp").toString(),
-                                    document.getLong("diastolicPressure")?.toInt() ?: 0,
-                                    document.getLong("systolicPressure")?.toInt() ?: 0,
-                                    document.getLong("heartRate")?.toInt() ?: 0,
-                                )
-                            )
-                        }
+                        )
                     }
                     android.os.Handler().postDelayed({ callBack.onResult(prepareList) }, 1000)
 
                 } else {
-
+// Запрос отработал но значение нулевое (тоесть записаей нет)
                 }
             }
             .addOnFailureListener { exception ->
@@ -67,22 +52,20 @@ class Repository : IRepository {
 
     override fun addNewRecord(
         record: Record,
-        callBack: CallBack<ArrayList<ApplicableForMineList>>
+        callBack: CallBack<Record>
     ) {
+        val ts = Timestamp(Calendar.getInstance().timeInMillis)
         val docData = hashMapOf(
-            "timestamp" to Timestamp(Calendar.getInstance().timeInMillis),
-            "diastolicPressure" to record.diastolicPressure,
-            "systolicPressure" to record.systolicPressure,
-            "heartRate" to record.heartRate
+            FSRecordStructure.Field.TIMESTAMP to ts,
+            FSRecordStructure.Field.DIASTOLIC_PRESSURE to record.diastolicPressure,
+            FSRecordStructure.Field.SYSTOLIC_PRESSURE to record.systolicPressure,
+            FSRecordStructure.Field.HEART_RATE to record.heartRate
         )
-        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).add(docData)
+        db.collection(FSRecordStructure.COLLECTION_PATH).add(docData)
             .addOnSuccessListener { it ->
                 record.id = it.id
-                callBack.onResult(
-                    arrayListOf(
-                        record
-                    )
-                )
+                record.timestamp = Date(ts.time)
+                callBack.onResult(record)
             }
             .addOnFailureListener { it ->
 
@@ -108,7 +91,7 @@ class Repository : IRepository {
     }
 
     override fun deleteRecord(record: Record, callBack: CallBack<Any>) {
-        db.collection(BaseConstants.FIRESTORE_COLLECTION_PATH).document(record.id).delete()
+        db.collection(FSRecordStructure.COLLECTION_PATH).document(record.id).delete()
             .addOnSuccessListener {
                 callBack.onResult(
                     record

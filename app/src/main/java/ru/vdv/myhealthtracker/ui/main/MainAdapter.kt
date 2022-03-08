@@ -11,12 +11,14 @@ import ru.vdv.myhealthtracker.domain.Separator
 import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import ru.vdv.myhealthtracker.ui.common.ILongClicked
 import ru.vdv.myhealthtracker.ui.common.UnknownTypeViewHolder
+import java.text.SimpleDateFormat
 import kotlin.math.abs
 import kotlin.math.max
 
 class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var items: ArrayList<ApplicableForMineList> = arrayListOf()
+    var items: List<ApplicableForMineList> = listOf()
     var itemLongClicked: ILongClicked? = null
+    private val format = SimpleDateFormat(BaseConstants.HEADER_TIME_FORMAT)
 
     override fun getItemViewType(position: Int) = when (items[position]) {
         is Record -> BaseViewType.RECORD
@@ -38,7 +40,7 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (val item = items[position]) {
             is Record -> {
                 holder as MainDataViewHolder
-                holder.time.text = item.timestamp.substring(11, 16)
+                holder.time.text = format.format(item.timestamp)
                 holder.systolicPressure.text = item.systolicPressure.toString()
                 holder.diastolicPressure.text = item.diastolicPressure.toString()
                 holder.heartRate.text = item.heartRate.toString()
