@@ -10,8 +10,8 @@ package ru.vdv.myhealthtracker.domain
 object BaseConstants {
     const val MY_TAG = "Моя проверка"
     const val FIREBASE_FAILURE = "ОШИБКА при работе компонены FIREBASE"
-    const val NORMAL_DIASTOLIC_PRESSURE = 120
-    const val NORMAL_SYSTOLIC_PRESSURE = 80
+    const val NORMAL_DIASTOLIC_PRESSURE = 80
+    const val NORMAL_SYSTOLIC_PRESSURE = 120
     const val HEADER_DATA_FORMAT = "dd MMMM"
     const val HEADER_YEAR_FORMAT = "yyyy"
     const val HEADER_TIME_FORMAT = "HH:mm"

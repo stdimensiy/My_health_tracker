@@ -34,8 +34,8 @@ class MainViewModel : BaseViewModel() {
         val newRecord: Record = Record(
             String(),
             null,
-            diastolicPressure.toInt(),
             systolicPressure.toInt(),
+            diastolicPressure.toInt(),
             heartRate.toInt()
         )
         repository.addNewRecord(newRecord, object : CallBack<Record> {
@@ -64,7 +64,7 @@ class MainViewModel : BaseViewModel() {
             record.timestamp?.let {
                 val recordDate = format.format(it) ?: String()
                 val recordYear = yearFormat.format(it) ?: String()
-                if (currentDay == recordDate || currentYear == recordYear
+                if (currentDay == recordDate && currentYear == recordYear
                 ) {
                     arrayPrepList.add(record)
                 } else {
