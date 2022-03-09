@@ -6,7 +6,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.CallBack
-import ru.vdv.myhealthtracker.domain.FSRecordStructure
 import ru.vdv.myhealthtracker.domain.Record
 import java.sql.Timestamp
 import java.util.*
@@ -18,17 +17,17 @@ class Repository : IRepository {
 
     override fun getList(callBack: CallBack<List<Record>>) {
         val tmpList: ArrayList<Record> = arrayListOf()
-        db.collection(FSRecordStructure.COLLECTION_PATH)
-            .orderBy(FSRecordStructure.Field.TIMESTAMP, Query.Direction.DESCENDING).get()
+        db.collection(Record.COLLECTION_PATH)
+            .orderBy(Record.TIMESTAMP, Query.Direction.DESCENDING).get()
             .addOnSuccessListener {
                 it?.let {
                     it.forEach { doc ->
                         val newRecord = Record(
                             doc.id,
-                            doc.getDate(FSRecordStructure.Field.TIMESTAMP),
-                            doc.getLong(FSRecordStructure.Field.SYSTOLIC_PRESSURE)?.toInt() ?: 0,
-                            doc.getLong(FSRecordStructure.Field.DIASTOLIC_PRESSURE)?.toInt() ?: 0,
-                            doc.getLong(FSRecordStructure.Field.HEART_RATE)?.toInt() ?: 0,
+                            doc.getDate(Record.TIMESTAMP),
+                            doc.getLong(Record.SYSTOLIC_PRESSURE)?.toInt() ?: 0,
+                            doc.getLong(Record.DIASTOLIC_PRESSURE)?.toInt() ?: 0,
+                            doc.getLong(Record.HEART_RATE)?.toInt() ?: 0,
                         )
                         tmpList.add(newRecord)
                     }
@@ -49,12 +48,12 @@ class Repository : IRepository {
     ) {
         val ts = Timestamp(Calendar.getInstance().timeInMillis)
         val docData = hashMapOf(
-            FSRecordStructure.Field.TIMESTAMP to ts,
-            FSRecordStructure.Field.DIASTOLIC_PRESSURE to record.diastolicPressure,
-            FSRecordStructure.Field.SYSTOLIC_PRESSURE to record.systolicPressure,
-            FSRecordStructure.Field.HEART_RATE to record.heartRate
+            Record.TIMESTAMP to ts,
+            Record.DIASTOLIC_PRESSURE to record.diastolicPressure,
+            Record.SYSTOLIC_PRESSURE to record.systolicPressure,
+            Record.HEART_RATE to record.heartRate
         )
-        db.collection(FSRecordStructure.COLLECTION_PATH).add(docData)
+        db.collection(Record.COLLECTION_PATH).add(docData)
             .addOnSuccessListener { it ->
                 record.id = it.id
                 record.timestamp = Date(ts.time)
@@ -87,7 +86,7 @@ class Repository : IRepository {
     }
 
     override fun deleteRecord(record: Record, callBack: CallBack<Any>) {
-        db.collection(FSRecordStructure.COLLECTION_PATH).document(record.id).delete()
+        db.collection(Record.COLLECTION_PATH).document(record.id).delete()
             .addOnSuccessListener {
                 callBack.onResult(record)
             }

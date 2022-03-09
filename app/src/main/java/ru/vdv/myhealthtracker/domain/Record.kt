@@ -21,4 +21,35 @@ data class Record(
     val systolicPressure: Int,
     val diastolicPressure: Int,
     val heartRate: Int
-) : Parcelable, ApplicableForMineList
+) : Parcelable, ApplicableForMineList {
+
+    /**
+     * Структура данных коллекции records:
+     */
+    companion object {
+        /**
+         * Идентификатор коллекции запией (Record)
+         */
+        const val COLLECTION_PATH = "records"
+
+        /**
+         * Временная метка записи
+         */
+        const val TIMESTAMP = "timestamp"
+
+        /**
+         * Нижнее значение давления (Диастолическое)
+         */
+        const val DIASTOLIC_PRESSURE = "diastolicPressure"
+
+        /**
+         * Верхнее значение артериального давления (Систолическое)
+         */
+        const val SYSTOLIC_PRESSURE = "systolicPressure"
+
+        /**
+         * Сердечный ритм (пульс, ударов в минуту)
+         */
+        const val HEART_RATE = "heartRate"
+    }
+}
