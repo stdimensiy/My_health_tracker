@@ -1,91 +1,69 @@
 package ru.vdv.myhealthtracker.model.repository
 
-import android.annotation.SuppressLint
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ru.vdv.myhealthtracker.domain.BaseConstants
 import ru.vdv.myhealthtracker.domain.CallBack
 import ru.vdv.myhealthtracker.domain.Record
-import ru.vdv.myhealthtracker.domain.Separator
-import ru.vdv.myhealthtracker.ui.common.ApplicableForMineList
 import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Repository : IRepository {
 
-    @SuppressLint("SimpleDateFormat")
-    private val format = SimpleDateFormat(BaseConstants.HEADER_DATA_FORMAT)
     private val db = Firebase.firestore
 
-    override fun getList(callBack: CallBack<ArrayList<ApplicableForMineList>>) {
-        var currentDataRecord: String = ""
-        val prepareList: ArrayList<ApplicableForMineList> = arrayListOf()
-        db.collection("records").orderBy("timestamp", Query.Direction.DESCENDING).get()
-            .addOnSuccessListener { documents ->
-                if (documents != null) {
-                    for (document in documents) {
-                        if (currentDataRecord.equals(format.format(document.getDate("timestamp")))) {
-                            prepareList.add(
-                                Record(
-                                    document.id,
-                                    document.getDate("timestamp").toString(),
-                                    document.getLong("diastolicPressure")?.toInt() ?: 0,
-                                    document.getLong("systolicPressure")?.toInt() ?: 0,
-                                    document.getLong("heartRate")?.toInt() ?: 0,
-                                )
-                            )
-                        } else {
-                            currentDataRecord = format.format(document.getDate("timestamp"))
-                            prepareList.add(Separator(currentDataRecord))
-
-                            val fullDataStamp = document.getDate("timestamp")
-                            val diastolicPressure = document.getLong("systolicPressure")
-                            prepareList.add(
-                                Record(
-                                    document.id,
-                                    document.getDate("timestamp").toString(),
-                                    document.getLong("diastolicPressure")?.toInt() ?: 0,
-                                    document.getLong("systolicPressure")?.toInt() ?: 0,
-                                    document.getLong("heartRate")?.toInt() ?: 0,
-                                )
-                            )
-                        }
+    override fun getList(callBack: CallBack<List<Record>>) {
+        val tmpList: ArrayList<Record> = arrayListOf()
+        db.collection(Record.COLLECTION_PATH)
+            .orderBy(Record.TIMESTAMP, Query.Direction.DESCENDING).get()
+            .addOnSuccessListener {
+                it?.let {
+                    it.forEach { doc ->
+                        val newRecord = Record(
+                            doc.id,
+                            doc.getDate(Record.TIMESTAMP),
+                            doc.getLong(Record.SYSTOLIC_PRESSURE)?.toInt() ?: 0,
+                            doc.getLong(Record.DIASTOLIC_PRESSURE)?.toInt() ?: 0,
+                            doc.getLong(Record.HEART_RATE)?.toInt() ?: 0,
+                        )
+                        tmpList.add(newRecord)
                     }
-                    android.os.Handler().postDelayed({ callBack.onResult(prepareList) }, 1000)
-
-                } else {
-
+                    callBack.onResult(tmpList.toList())
                 }
             }
             .addOnFailureListener { exception ->
-
+                Log.d(
+                    "${BaseConstants.MY_TAG} / ${this.javaClass.simpleName}",
+                    BaseConstants.FIREBASE_FAILURE + exception
+                )
             }
     }
 
     override fun addNewRecord(
         record: Record,
-        callBack: CallBack<ArrayList<ApplicableForMineList>>
+        callBack: CallBack<Record>
     ) {
+        val ts = Timestamp(Calendar.getInstance().timeInMillis)
         val docData = hashMapOf(
-            "timestamp" to Timestamp(Calendar.getInstance().timeInMillis),
-            "diastolicPressure" to record.diastolicPressure,
-            "systolicPressure" to record.systolicPressure,
-            "heartRate" to record.heartRate
+            Record.TIMESTAMP to ts,
+            Record.DIASTOLIC_PRESSURE to record.diastolicPressure,
+            Record.SYSTOLIC_PRESSURE to record.systolicPressure,
+            Record.HEART_RATE to record.heartRate
         )
-        db.collection("records").add(docData)
+        db.collection(Record.COLLECTION_PATH).add(docData)
             .addOnSuccessListener { it ->
                 record.id = it.id
-                callBack.onResult(
-                    arrayListOf(
-                        record
-                    )
-                )
+                record.timestamp = Date(ts.time)
+                callBack.onResult(record)
             }
             .addOnFailureListener { it ->
-
+                Log.d(
+                    "${BaseConstants.MY_TAG} / ${this.javaClass.simpleName}",
+                    BaseConstants.FIREBASE_FAILURE + it
+                )
             }
 
     }
@@ -108,11 +86,9 @@ class Repository : IRepository {
     }
 
     override fun deleteRecord(record: Record, callBack: CallBack<Any>) {
-        db.collection("records").document(record.id).delete()
+        db.collection(Record.COLLECTION_PATH).document(record.id).delete()
             .addOnSuccessListener {
-                callBack.onResult(
-                    record
-                )
+                callBack.onResult(record)
             }
     }
 }

@@ -9,12 +9,12 @@
     <View
         android:id="@+id/top_divider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/rv_element_top_divider_height"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="2dp" />
+        tools:layout_editor_absoluteX="@dimen/rv_element_top_divider_height" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -26,7 +26,7 @@
         android:text="@string/tv_date"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/custom_accent_text_color"
-        android:textSize="16sp"
+        android:textSize="@dimen/element_secondary_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,11 +38,11 @@
     <View
         android:id="@+id/bottom_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/rv_element_bottom_divider_height"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="@dimen/rv_element_bottom_divider_height" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
